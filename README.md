@@ -1,6 +1,7 @@
 # keyforge_app
 
-A new Flutter project.
+Ember and key counter.
+A Flutter project made for fun.
 
 ## Getting Started
 
