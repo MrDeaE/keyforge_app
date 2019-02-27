@@ -178,7 +178,7 @@ class _MainBodyState extends State<MainBody> {
       children: <Widget>[
         _buildMinusButton('chain'),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: EdgeInsets.symmetric(horizontal: 3),
           child: Text(
             'Chains: $_chainCount | Cards: $_howManyCards',
             style: TextStyle(
@@ -283,7 +283,7 @@ class _MainBodyState extends State<MainBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.fromLTRB(20, 35, 0, 20),
+          margin: EdgeInsets.fromLTRB(20, 45, 0, 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
