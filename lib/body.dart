@@ -29,6 +29,24 @@ class _MainBodyState extends State<MainBody> {
     super.initState();
   }
 
+  void _setCardsFromChain(num cc) {
+    if (cc == 0) {
+      _howManyCards = 0;
+    }
+    if (cc > 0) {
+      _howManyCards = -1;
+    }
+    if (cc > 6) {
+      _howManyCards = -2;
+    }
+    if (cc > 12) {
+      _howManyCards = -3;
+    }
+    if (cc > 18) {
+      _howManyCards = -4;
+    }
+  }
+
   void _increaseEmber() {
     setState(() {
       _emberCount++;
@@ -82,6 +100,7 @@ class _MainBodyState extends State<MainBody> {
   void _increaseChain() {
     setState(() {
       _chainCount++;
+      _setCardsFromChain(_chainCount);
     });
   }
 
@@ -90,6 +109,7 @@ class _MainBodyState extends State<MainBody> {
       if (_chainCount > 0) {
         _chainCount--;
       }
+      _setCardsFromChain(_chainCount);
     });
   }
 
