@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './hex_color.dart';
 import './menu.dart';
 
 class MainBody extends StatefulWidget {
@@ -18,7 +17,9 @@ class MainBody extends StatefulWidget {
 class _MainBodyState extends State<MainBody> {
   num _emberCount = 0, _keyCount = 0, _chainCount = 0, _howManyCards = 0;
   bool _isButtonDisabled;
-
+  final Color darkMainColor = Color(0xffcde6f5);
+  final Color accentColor = Color(0xff333333);
+  
   @override
   void initState() {
     _emberCount = 0;
@@ -196,11 +197,11 @@ class _MainBodyState extends State<MainBody> {
       padding: const EdgeInsets.all(0.0),
       constraints: BoxConstraints.expand(height: 50, width: 50),
       decoration: BoxDecoration(
-          border: Border.all(color: HexColor('333333')),
+          border: Border.all(color: accentColor),
           borderRadius: BorderRadius.all(Radius.circular(100.0))),
       child: FlatButton(
         child: Text('+',
-            style: TextStyle(fontSize: 40, color: HexColor('333333'))),
+            style: TextStyle(fontSize: 40, color: accentColor)),
         shape: CircleBorder(),
         onPressed: () {
           switch (s) {
@@ -228,11 +229,11 @@ class _MainBodyState extends State<MainBody> {
       padding: const EdgeInsets.all(0.0),
       constraints: BoxConstraints.expand(height: 50, width: 50),
       decoration: BoxDecoration(
-          border: Border.all(color: HexColor('333333')),
+          border: Border.all(color: accentColor),
           borderRadius: BorderRadius.all(Radius.circular(100.0))),
       child: FlatButton(
         child: Text('-',
-            style: TextStyle(fontSize: 40, color: HexColor('333333'))),
+            style: TextStyle(fontSize: 40, color: accentColor)),
         shape: CircleBorder(),
         onPressed: () {
           switch (s) {
@@ -292,7 +293,7 @@ class _MainBodyState extends State<MainBody> {
               FloatingActionButton(
                 child:
                     new Icon(Icons.arrow_back, color: Colors.white, size: 25),
-                backgroundColor: HexColor('333333'),
+                backgroundColor: accentColor,
                 onPressed: () {
                   clickBack(context);
                 },
@@ -325,7 +326,7 @@ class _MainBodyState extends State<MainBody> {
   Widget build(BuildContext context) {
     print('_MainBodyState build');
     return Scaffold(
-      backgroundColor: HexColor('8da7be'),
+      backgroundColor: darkMainColor,
       body: Column(
         children: <Widget>[_look(context)],
       ),

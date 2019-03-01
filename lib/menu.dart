@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import './hex_color.dart';
 import './main.dart';
 
 class MainMenu extends StatelessWidget {
+  final Color darkMainColor = Color(0xffcde6f5);
+  final Color accentColor = Color(0xff333333);
   @override
   Widget build(BuildContext context) {
     print('MainMenu created');
@@ -38,7 +39,7 @@ class MainMenu extends StatelessWidget {
       margin: const EdgeInsets.all(15.0),
       padding: const EdgeInsets.all(3.0),
       decoration: BoxDecoration(
-          border: Border.all(color: HexColor('333333')),
+          border: Border.all(color: accentColor),
           borderRadius: BorderRadius.all(Radius.circular(3.0))),
       child: FlatButton(
           child: Text(inStr),
