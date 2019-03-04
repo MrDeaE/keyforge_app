@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './menu.dart';
+import './widgets/card.dart';
 
 class MainBody extends StatefulWidget {
   MainBody() {
@@ -15,20 +15,40 @@ class MainBody extends StatefulWidget {
 }
 
 class _MainBodyState extends State<MainBody> {
-  num _emberCount = 0, _keyCount = 0, _chainCount = 0, _howManyCards = 0;
+  num _emberCount = 0,
+      _keyCount = 0,
+      _chainCount = 0,
+      _howManyCards = 0,
+      _keyPrice = 6;
   bool _isButtonDisabled;
-  final Color darkMainColor = Color(0xffcde6f5);
-  final Color accentColor = Color(0xff333333);
-  
+  List<CreatureCard> _cardList = new List();
+
+  final Color accentColor = Color(0xff7f0000);
+  // final Color textColor = Color(0xff333333);
+  final Color textColor = Color(0xff000000);
+  final Color mainColor = Color(0xffb71c1c);
+  final Color darkMainColor = Color(0xffc62828);
+
   @override
   void initState() {
     _emberCount = 0;
     _keyCount = 0;
     _chainCount = 0;
     _howManyCards = 0;
+    _keyPrice = 6;
     _isButtonDisabled = false;
     super.initState();
   }
+
+  TextStyle textStyle(Color col, double size) {
+    return TextStyle(fontSize: size, fontWeight: FontWeight.bold, color: col);
+  }
+
+void _showCardList(){
+  setState(() {
+    print(_cardList);
+  });
+}
 
   void _setCardsFromChain(num cc) {
     if (cc == 0) {
@@ -114,12 +134,24 @@ class _MainBodyState extends State<MainBody> {
     });
   }
 
+  void _increaseKeyPrice() {
+    setState(() {
+      _keyPrice++;
+    });
+  }
+
+  void _decreaseKeyPrice() {
+    setState(() {
+      if (_keyPrice > 0) _keyPrice--;
+    });
+  }
+
   Widget _buildEmberArea() {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          _buildMinusButton('ember'),
+          _buildMinusButton('ember', 15),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.center,
@@ -129,17 +161,13 @@ class _MainBodyState extends State<MainBody> {
                     image: AssetImage('assets/ember.png'), fit: BoxFit.fill)),
             child: FlatButton(
               onPressed: () {},
-              child: Text('$_emberCount',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+              child: Text('$_emberCount', style: textStyle(textColor, 20)),
               shape: new CircleBorder(),
               color: Colors.white,
               padding: const EdgeInsets.all(1.0),
             ),
           ),
-          _buildPlusButton('ember')
+          _buildPlusButton('ember', 15)
         ]);
   }
 
@@ -148,7 +176,7 @@ class _MainBodyState extends State<MainBody> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          _buildMinusButton('key'),
+          _buildMinusButton('key', 15),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
@@ -163,12 +191,9 @@ class _MainBodyState extends State<MainBody> {
                   onPressed: () {},
                   child: Text(
                     '$_keyCount',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                    style: textStyle(textColor, 20),
                   ))),
-          _buildPlusButton('key')
+          _buildPlusButton('key', 15)
         ]);
   }
 
@@ -177,31 +202,49 @@ class _MainBodyState extends State<MainBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        _buildMinusButton('chain'),
+        _buildMinusButton('chain', 15),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 3),
           child: Text(
             'Chains: $_chainCount | Cards: $_howManyCards',
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            style: textStyle(textColor, 20),
           ),
         ),
-        _buildPlusButton('chain')
+        _buildPlusButton('chain', 15)
       ],
     );
   }
 
-  Widget _buildPlusButton(String s) {
+  Widget _buildKeyPriceArea() {
     return Container(
-      margin: const EdgeInsets.all(15.0),
+        child: Row(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            _buildText('Key Cost', textColor, 16, 20, 10, 20, 6),
+            _buildText('$_keyPrice', textColor, 20, 20, 6, 20, 10)
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            _buildPlusButton('keyPrice', 2),
+            _buildMinusButton('keyPrice', 2)
+          ],
+        )
+      ],
+    ));
+  }
+
+  Widget _buildPlusButton(String s, double margin) {
+    return Container(
+      margin: EdgeInsets.all(margin),
       padding: const EdgeInsets.all(0.0),
       constraints: BoxConstraints.expand(height: 50, width: 50),
       decoration: BoxDecoration(
-          border: Border.all(color: accentColor),
+          border: Border.all(color: textColor),
           borderRadius: BorderRadius.all(Radius.circular(100.0))),
       child: FlatButton(
-        child: Text('+',
-            style: TextStyle(fontSize: 40, color: accentColor)),
+        child: Text('+', style: textStyle(textColor, 20)),
         shape: CircleBorder(),
         onPressed: () {
           switch (s) {
@@ -214,6 +257,9 @@ class _MainBodyState extends State<MainBody> {
             case 'chain':
               _increaseChain();
               break;
+            case 'keyPrice':
+              _increaseKeyPrice();
+              break;
             default:
               null;
           }
@@ -223,17 +269,16 @@ class _MainBodyState extends State<MainBody> {
     );
   }
 
-  Widget _buildMinusButton(String s) {
+  Widget _buildMinusButton(String s, double margin) {
     return Container(
-      margin: const EdgeInsets.all(15.0),
+      margin: EdgeInsets.all(margin),
       padding: const EdgeInsets.all(0.0),
       constraints: BoxConstraints.expand(height: 50, width: 50),
       decoration: BoxDecoration(
-          border: Border.all(color: accentColor),
+          border: Border.all(color: textColor),
           borderRadius: BorderRadius.all(Radius.circular(100.0))),
       child: FlatButton(
-        child: Text('-',
-            style: TextStyle(fontSize: 40, color: accentColor)),
+        child: Text('-', style: textStyle(textColor, 20)),
         shape: CircleBorder(),
         onPressed: () {
           switch (s) {
@@ -245,6 +290,9 @@ class _MainBodyState extends State<MainBody> {
               break;
             case 'chain':
               _decreaseChain();
+              break;
+            case 'keyPrice':
+              _decreaseKeyPrice();
               break;
             default:
               null;
@@ -284,16 +332,18 @@ class _MainBodyState extends State<MainBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.fromLTRB(20, 45, 0, 20),
+          margin: EdgeInsets.fromLTRB(0, 55, 0, 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               //back button
-              FloatingActionButton(
+              FlatButton(
                 child:
                     new Icon(Icons.arrow_back, color: Colors.white, size: 25),
-                backgroundColor: accentColor,
+                color: accentColor,
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(12),
                 onPressed: () {
                   clickBack(context);
                 },
@@ -304,21 +354,27 @@ class _MainBodyState extends State<MainBody> {
         Column(
           children: <Widget>[
             //embers etc
-            Text('Current Embers:'),
+            _buildText('Embers', textColor, 14, 0, 0, 0, 10),
             _buildEmberArea(),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Text('Keys'),
-            ),
+            _buildText('Keys', textColor, 14, 0, 20, 0, 10),
             _buildKeyArea(),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 50, 0, 5),
-              child: Text('Chains:'),
-            ),
-            _buildChainArea()
+            _buildText('Chains', textColor, 14, 0, 20, 0, 10),
+            _buildChainArea(),
+            _buildKeyPriceArea(),
+            
+            //cards
+            // CreatureCard(_cardList)
           ],
         )
       ],
+    );
+  }
+
+  Widget _buildText(String text, Color color, double size, double l, double t,
+      double r, double d) {
+    return Container(
+      child: Text(text, style: textStyle(color, size)),
+      margin: EdgeInsets.fromLTRB(l, t, r, d),
     );
   }
 

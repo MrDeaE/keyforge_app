@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './main.dart';
-
 class MainMenu extends StatelessWidget {
   final Color darkMainColor = Color(0xffcde6f5);
   final Color accentColor = Color(0xff333333);
+
   @override
   Widget build(BuildContext context) {
     print('MainMenu created');
@@ -20,13 +19,13 @@ class MainMenu extends StatelessWidget {
         Container(
           margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
           child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            buildGameButton(context, '1 Player'),
-            buildGameButton(context, '2 Players')
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              buildGameButton(context, '1 Player'),
+              buildGameButton(context, '2 Players')
+            ],
+          ),
         ),
         buildGameButton(context, 'Rules'),
       ],
